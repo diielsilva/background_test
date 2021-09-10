@@ -10,6 +10,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+  AppLifecycleState? life;
 
   @override
   void initState() {
@@ -25,14 +26,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    while(state != AppLifecycleState.resumed) {
+    life = state;
+    while(life != AppLifecycleState.resumed) {
       Position actualLocation = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
       print(actualLocation.latitude);
       print(actualLocation.longitude);
     }
-    super.didChangeAppLifecycleState(state);
+
   }
 
   @override
